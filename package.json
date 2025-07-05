@@ -1,0 +1,25 @@
+{
+  "name": "final-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JesManCar/final-backend.git"
+  },
+  "author": "Jesus Manuel Caro Almeda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JesManCar/final-backend/issues"
+  },
+  "homepage": "https://github.com/JesManCar/final-backend#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "husky": "^9.1.7"
+  }
+}

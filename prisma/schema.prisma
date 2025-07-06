@@ -15,16 +15,108 @@ datasource db {
 }
 
 model User {  
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
+  id          Int      @id @default(autoincrement())
   username    String
-  pets   Pets[]
+  email       String   @unique
+  password    String
+  country     String
+  city        String
+  address     String
+  postal      String
+  pets        HistoricalPetsOwner[]
+  bills       ExpensesPetOwner[]
+  treatment   TreatmentsPetOwner[]
+  posts       Posts[]
+  events      HistoricalEventsPetOwner[]
 }
 
-model Pets {
-  id        Int     @id @default(autoincrement())
-  name     String
-  birthday   DateTime
-  owner    User   @relation(fields: [ownerId], references: [id])
-  ownerId  Int
+model Pet {
+  id         Int     @id @default(autoincrement())
+  name        String
+  species     String
+  breed       String  
+  birthday    DateTime
+  owners      HistoricalPetsOwner[]
+  bills       ExpensesPetOwner[]
+  treatment   TreatmentsPetOwner[]
+  events      HistoricalEventsPetOwner[]
+}
+
+model HistoricalPetsOwner {
+  id         Int       @id @default(autoincrement())
+  owner      User      @relation(fields: [ownerId], references: [id])
+  ownerId    Int
+  pet        Pet       @relation(fields: [petId], references: [id])
+  petId      Int
+  dateOwn    DateTime  @default(now())
+}
+
+model Event {
+  id        Int         @id @default(autoincrement())
+  name      String
+  desc      String
+  city      String
+  address   String
+  postal    String
+  type      EventType   @relation(fields: [typeId], references: [id])
+  typeId    Int
+  events    HistoricalEventsPetOwner[]
+}
+
+model EventType {
+  id        Int         @id @default(autoincrement())
+  event     String
+  events    Event[]
+}
+
+model HistoricalEventsPetOwner {
+  id         Int        @id @default(autoincrement())
+  owner      User       @relation(fields: [ownerId], references: [id])
+  ownerId    Int
+  pet        Pet        @relation(fields: [petId], references: [id])
+  petId      Int
+  event      Event      @relation(fields: [eventId], references: [id])
+  eventId    Int
+  assits     Boolean
+  date       DateTime   @default(now())
+}
+
+model ExpensesPetOwner {
+  id         Int        @id @default(autoincrement())
+  amount     Int
+  place      String
+  owner      User       @relation(fields: [ownerId], references: [id])
+  ownerId    Int
+  pet        Pet        @relation(fields: [petId], references: [id])
+  petId      Int
+  date       DateTime
+}
+
+model TreatmentsPetOwner {
+  id         Int        @id @default(autoincrement())
+  treatment  String
+  doctor     String
+  place      String
+  owner      User       @relation(fields: [ownerId], references: [id])
+  ownerId    Int
+  pet        Pet        @relation(fields: [petId], references: [id])
+  petId      Int
+  date       DateTime
+}
+
+model Posts {
+  id         Int        @id @default(autoincrement())
+  owner      User       @relation(fields: [ownerId], references: [id])
+  ownerId    Int
+  tittle     String
+  desc       String
+  type       PostType   @relation(fields: [typeId], references: [id])
+  typeId     Int
+  date       DateTime   @default(now())
+}
+
+model PostType {
+  id        Int         @id @default(autoincrement())
+  name      String
+  posts     Posts[]
 }

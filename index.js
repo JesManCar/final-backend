@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { PrismaClient } from './generated/prisma/edge.js';
 import router from './routes/creationRoutes.js';
+import authRoutes from './routes/authRoutes.js'
 
 dotenv.config();
 const app = express();
@@ -22,6 +23,7 @@ app.get("/users", async (req, res) => {
   res.json(result);
 });
 
+app.use("/", authRoutes)
 app.use("/creation", router);
 
 

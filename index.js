@@ -16,11 +16,11 @@ const PORT = process.env.PORT || 3001;
 const corsOptions = {
   origin: 'https://sweet-fudge-b86efd.netlify.app', //Frontend origin
   credentials: true,
-  optionSuccessStatus: 200
+  optionsSuccessStatus: 200
 }
 
 app.use(cors(corsOptions));
-app.options(/^\/.*$/, cors(corsOptions)); // Pre-flight requests
+//app.options(/^\/.*$/, cors(corsOptions)); // Pre-flight requests
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

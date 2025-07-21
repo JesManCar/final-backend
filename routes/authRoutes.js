@@ -12,8 +12,6 @@ router.post('/register', async (req, res) => {
     //const { email, password } = req.body;
     console.log(req.body)
     const { username, email, password, country, city, address, postal } = req.body;
-    if (!username || !email || !password || !country || !city || !address || !postal) 
-        res.json({error: "Datos incorrectos"});
 
     try {
         //const exists = await User.findOne({ email });
@@ -30,9 +28,11 @@ router.post('/register', async (req, res) => {
         const user = await prisma.user.create({
             data: { username, email, password: hashed, country, city, address, postal}
         });
+        if (user){
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+            res.json({ token });
+        }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-        res.json({ token });
 
     } catch (err) {
       res.status(500).json({ error: 'Error al registrar' });
@@ -47,9 +47,9 @@ router.post('/login', async (req, res) => {
 
         if (!user || !(await bcrypt.compare(password, user.password)))
             return res.status(400).json({ error: 'Credenciales incorrectas' });
-    
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-        res.json({ token });
+
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+        res.json({ token, user: { id: user.id, name: user.username,email: user.email } });
 
     } catch {
         res.status(500).json({ error: 'Error al iniciar sesión' });

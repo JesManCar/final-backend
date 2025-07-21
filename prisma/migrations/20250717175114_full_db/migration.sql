@@ -1,19 +1,38 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "username" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "country" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "address" TEXT NOT NULL,
+    "postal" TEXT NOT NULL,
 
-  - Added the required column `address` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `city` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `country` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `password` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `postal` to the `User` table without a default value. This is not possible if the table is not empty.
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
-*/
--- AlterTable
-ALTER TABLE "User" ADD COLUMN     "address" TEXT NOT NULL,
-ADD COLUMN     "city" TEXT NOT NULL,
-ADD COLUMN     "country" TEXT NOT NULL,
-ADD COLUMN     "password" TEXT NOT NULL,
-ADD COLUMN     "postal" TEXT NOT NULL;
+-- CreateTable
+CREATE TABLE "Pet" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "species" TEXT NOT NULL,
+    "breed" TEXT NOT NULL,
+    "birthday" TIMESTAMP(3) NOT NULL,
+    "image" TEXT,
+
+    CONSTRAINT "Pet_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "HistoricalPetsOwner" (
+    "id" SERIAL NOT NULL,
+    "ownerId" INTEGER NOT NULL,
+    "petId" INTEGER NOT NULL,
+    "dateOwn" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "HistoricalPetsOwner_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Event" (
@@ -92,6 +111,15 @@ CREATE TABLE "PostType" (
 
     CONSTRAINT "PostType_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- AddForeignKey
+ALTER TABLE "HistoricalPetsOwner" ADD CONSTRAINT "HistoricalPetsOwner_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "HistoricalPetsOwner" ADD CONSTRAINT "HistoricalPetsOwner_petId_fkey" FOREIGN KEY ("petId") REFERENCES "Pet"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Event" ADD CONSTRAINT "Event_typeId_fkey" FOREIGN KEY ("typeId") REFERENCES "EventType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -36,6 +36,7 @@ model Pet {
   species     String
   breed       String  
   birthday    DateTime
+  image       String?
   owners      HistoricalPetsOwner[]
   bills       ExpensesPetOwner[]
   treatment   TreatmentsPetOwner[]

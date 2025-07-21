@@ -45,7 +45,6 @@ router.post("/pet", async (req, res) => {
     });
     res.json(result);
 });
-
 router.post("/post", async (req, res) => {
     const {tittle, desc, ownerId, typeId} = req.body;
     if (!tittle || !desc || !ownerId || !typeId ) {

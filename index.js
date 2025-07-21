@@ -14,7 +14,8 @@ const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3001;
 
 const corsOptions = {
-  origin:'http://localhost:5173', //Frontend origin
+  //origin:'http://localhost:5173', //Frontend origin
+  origin: 'https://sweet-fudge-b86efd.netlify.app/', //Frontend origin
   credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus:200
 }

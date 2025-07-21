@@ -20,7 +20,7 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Pre-flight requests
+app.options(/^\/.*$/, cors(corsOptions)); // Pre-flight requests
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
